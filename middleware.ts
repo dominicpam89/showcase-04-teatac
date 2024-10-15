@@ -20,7 +20,8 @@ export function middleware(request: NextRequest) {
 	/**
 	 * temporary turn off the routes protection by auth user
 	 * */
-	return authMiddleware(request);
+	// return authMiddleware(request);
+	return NextResponse.next();
 }
 
 export const config = {

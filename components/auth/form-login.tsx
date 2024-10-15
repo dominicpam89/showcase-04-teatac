@@ -10,15 +10,16 @@ import InputFieldPassword from "@/components/ui-custom/input-field-password";
 import { AtSignIcon, VenetianMaskIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AuthProvidersUI from "./providers";
-import { useContextAuthMock } from "@/lib/hooks/useContextAuth.mock";
 import FormErrorUI from "./form-error";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import AuthSwitchButton from "./switch";
+import { useContextAuth } from "@/lib/hooks/useContextAuth";
 
 export default function FormLoginUI() {
-	const { createMockAuth, data, error, isPending, isSuccess, isError } =
-		useContextAuthMock();
+	const {
+		signinState: { error, isError, isPending, isSuccess, mutate },
+	} = useContextAuth();
 	const hookForm = useForm<FormLoginType>({
 		defaultValues: {
 			email: "testing@email.com",
@@ -30,15 +31,14 @@ export default function FormLoginUI() {
 	});
 
 	const onValid: SubmitHandler<FormLoginType> = async (data) => {
-		const mockAuth = createMockAuth("login");
-		await mockAuth(data, false, false);
+		mutate(data);
 	};
 
 	const router = useRouter();
 
 	useEffect(() => {
 		if (isSuccess) router.push("/auth/success?type=login");
-	}, [isSuccess, isError, data]);
+	}, [isSuccess]);
 
 	return (
 		<FormProvider {...hookForm}>

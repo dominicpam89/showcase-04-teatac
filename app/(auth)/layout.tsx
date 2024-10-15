@@ -1,4 +1,3 @@
-import ThemeToggle from "@/components/themes/toggle";
 import { PropsWithChildren } from "react";
 
 export default function Layout({ children }: PropsWithChildren) {

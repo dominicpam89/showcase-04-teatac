@@ -6,7 +6,6 @@ import {
 	registerWithPassword,
 	getLimitedUserInfo,
 	LimitedUserInfoType,
-	sessionUpdate,
 } from "@/lib/services/auth.service";
 import { ContextAuthType } from "@/lib/types/auth.context.type";
 import { auth } from "@/firebase.config";
@@ -31,10 +30,8 @@ export default function ContextAuthProvider({ children }: Props) {
 		const unsubscribe = onAuthStateChanged(auth, async (user) => {
 			console.log("debug 4: onAuthStateChanged, user: ", user);
 			if (user) {
-				await sessionUpdate(user);
 				setUserState(getLimitedUserInfo(user));
 			} else {
-				await sessionUpdate(null);
 				setUserState(null);
 			}
 		});
